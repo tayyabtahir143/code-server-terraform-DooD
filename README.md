@@ -3,19 +3,28 @@
 This project provides VS Code in the browser using code-server with Terraform, AWS CLI, Azure CLI, Google Cloud SDK (gcloud), Kubernetes CLI (kubectl), and OpenShift CLI (oc) preinstalled. Docker CLI access is also available inside the environment by mounting the host socket. You only need Docker and Docker Compose installed on your host machine.
 
 To use it, make sure Docker and Docker Compose are installed on your host and verify with:
-`docker --version` and `docker compose version`.
+
+```bash 
+docker --version
+docker compose version
+```
+
 
 Clone this repository:
 
-`git clone https://github.com/tayyabtahir143/code-server-terraform-DooD.git`
+```bash
+git clone https://github.com/tayyabtahir143/code-server-terraform-DooD.git
 
-`cd code-server-terraform`
+cd code-server-terraform
+```
 
 Edit `docker-compose.yaml` and set a strong password by replacing `PASSWORD=change-me` with your own.
 
 Start the container:
 
-`docker compose up -d --build`
+```bash
+docker compose up -d --build
+```
 
 Open your browser at https://localhost:8443 and log in with your password.
 
@@ -42,7 +51,9 @@ To manage the container itself:
 - Logs: `docker compose logs -f`
 
 Cleanup everything including images and volumes:
-`docker compose down -v --rmi all`
+```bash	
+docker compose down -v --rmi all
+```
 
 If running on Rocky Linux, AlmaLinux, or Fedora with SELinux enabled, fix permissions on bind mounts so code-server can write to them:
 
