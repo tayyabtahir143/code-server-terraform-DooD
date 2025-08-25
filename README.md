@@ -35,6 +35,7 @@ Inside the VS Code terminal you can check tools:
 - `gcloud --version` → Google Cloud SDK
 - `kubectl version --client` → Kubernetes CLI
 - `oc version` → OpenShift CLI
+- `sudo docker ps` → Docker to interact with containers on host machine.
 
 All these tools are baked into the container and ready to use.
 
