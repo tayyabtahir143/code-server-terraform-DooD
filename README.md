@@ -1,38 +1,50 @@
-# Code-Server + Terraform (Dev Environment in Docker)
+# Code-Server + Terraform + Multi-Cloud + Kubernetes
 
-This project gives you VS Code in the browser using code-server with Terraform preinstalled, and optional Docker access inside the environment. You only need Docker and Docker Compose installed on your host machine.  
+This project provides VS Code in the browser using code-server with Terraform, AWS CLI, Azure CLI, Google Cloud SDK (gcloud), Kubernetes CLI (kubectl), and OpenShift CLI (oc) preinstalled. Docker CLI access is also available inside the environment by mounting the host socket. You only need Docker and Docker Compose installed on your host machine.
 
-To use it, first make sure Docker and Docker Compose are installed on the host and check with:  
-`docker --version` and `docker compose version`.  
+To use it, make sure Docker and Docker Compose are installed on your host and verify with:
+`docker --version` and `docker compose version`.
 
-Clone this repository:  
-`git clone https://github.com/YOUR-USERNAME/code-server-terraform.git`  
-`cd code-server-terraform`  
+Clone this repository:
 
-Edit `docker-compose.yaml` and set a strong password by replacing `PASSWORD=change-me` with your own.  
+`git clone https://github.com/tayyabtahir143/code-server-terraform-DooD.git`
 
-Start the container:  
-`docker compose up -d --build`  
+`cd code-server-terraform`
 
-Open your browser at https://localhost:8443 and log in with your password.  
+Edit `docker-compose.yaml` and set a strong password by replacing `PASSWORD=change-me` with your own.
 
-Inside the VS Code terminal verify Terraform with:  
-`terraform -version`  
-then start projects with:  
-`mkdir my-terraform && cd my-terraform && terraform init && terraform plan && terraform apply`  
+Start the container:
 
-If you want Docker access inside code-server, add to volumes in `docker-compose.yaml`:  
-`/var/run/docker.sock:/var/run/docker.sock`  
-`/usr/bin/docker:/usr/bin/docker:ro`  
-Restart with `docker compose up -d` and test inside the terminal with `docker ps`.  
+`docker compose up -d --build`
 
-Manage the container with:  
-- Stop: `docker compose down`  
-- Restart: `docker compose restart`  
-- Logs: `docker compose logs -f`  
+Open your browser at https://localhost:8443 and log in with your password.
 
-Cleanup everything with:  
-`docker compose down -v --rmi all`  
+Inside the VS Code terminal you can check tools:
+- `terraform -version` → verify Terraform
+- `aws --version` → AWS CLI
+- `az --version` → Azure CLI
+- `gcloud --version` → Google Cloud SDK
+- `kubectl version --client` → Kubernetes CLI
+- `oc version` → OpenShift CLI
+
+All these tools are baked into the container and ready to use.
+
+If you want Docker commands inside VS Code, the host socket is mounted. Because the code-server user is not root, you must prefix Docker commands with `sudo`:
+`sudo docker ps`
+`sudo docker build .`
+`sudo docker compose up`
+
+If you want to avoid typing sudo each time, you can adjust user/group mappings or give the container user Docker group membership, but by default `sudo` is required for safety.
+
+To manage the container itself:
+- Stop: `docker compose down`
+- Restart: `docker compose restart`
+- Logs: `docker compose logs -f`
+
+Cleanup everything including images and volumes:
+`docker compose down -v --rmi all`
+
+If running on Rocky Linux, AlmaLinux, or Fedora with SELinux enabled, fix permissions on bind mounts so code-server can write to them:
 
 For security always set a strong password, use HTTPS via a reverse proxy if exposing remotely, and never commit secrets, `.tfstate`, or `.env` files (add them to `.gitignore`).
 
